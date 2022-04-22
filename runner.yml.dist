@@ -47,6 +47,7 @@ toolkit:
                 - { task: "symlink", from: "../../lib/modules", to: "${drupal.root}/modules/custom" }
                 - { task: "symlink", from: "../../lib/themes", to: "${drupal.root}/themes/custom" }
                 - { task: "symlink", from: "../../lib/profiles", to: "${drupal.root}/profiles/custom" }
+                - { task: "process-php", type: "write", config: "drupal.settings", source: "${drupal.root}/sites/default/default.settings.php", destination: "${drupal.root}/sites/default/settings.override.php", override: true }
                 - { task: run, command: 'drupal:setup-test' }
 commands:
   drupal:setup-test:
