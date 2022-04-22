@@ -1,101 +1,106 @@
-# token_project_name
+# Open Europa Library
+This is a kickstarter project for Open Europa Library components integration.
 
-[![Build Status](https://drone.fpfis.eu/api/badges/token_vendor/token_project_id-reference/status.svg)](https://drone.fpfis.eu/token_vendor/token_project_id-reference)
+### 1. Drupal instalation
+[oe_demo](https://github.com/Maxfire/OE_demo) repository.
+```
+$ git clone https://github.com/Maxfire/OE_demo.git oe_demo
+$ cd oe_demo
+$ git checkout release/oel
+$ docker-compose up -d
+$ docker-compose exec web composer install
+$ docker-compose exec web ./vendor/bin/run toolkit:build-dev
+$ docker-compose exec web ./vendor/bin/run toolkit:install-clean
+```
+### 2. Whitelabel theme
+[oe_whitelabel](https://github.com/openeuropa/oe_whitelabel) repository.
+```
+$ docker-compose exec web composer require "openeuropa/oe_whitelabel:^1.0.0-alpha7"
+$ docker-compose exec web composer require openeuropa/oe_corporate_blocks
+$ docker-compose exec web drush en oe_whitelabel_helper -y && docker-compose exec web drush en twig_field_value -y
+$ docker-compose exec web ./vendor/bin/drush uli --uri=http://localhost:8080/web/
+```
+Install and set as default the whitelabel theme though UI.
+```
+$ docker-compose exec web bash
+$ cd web/themes/contrib/oe_bootstrap_theme && npm install && npm run build && exit
+$ docker-compose exec web drush cr
+```
+### 3. Search
+[search_api](https://www.drupal.org/project/search_api) module.
+```
+$ docker-compose exec web composer require drupal/search_api && docker-compose exec web composer require drupal/search_api_autocomplete
+$ docker-compose exec web drush en oe_whitelabel_search && docker-compose exec web drush en search_api_db -y && docker-compose exec web drush en search_api_autocomplete
+```
+Go to search api and create server + index.
+* Server:  match on part of a word.
 
-<p>token_project_description</p>
+Go to search api fields:
+* Add rendered html and highlight results.
+* In content add title.
+* Modify title to fulltext.
+* Processors check Ignore case.
+* Save and Reindex.
 
-This is an example, feel free to drop it and customize as you need.
+Go to views and create a new one:
+* View name "Search".
+* Create a page "checked".
+* In format Show Rendered entity.
+* View mode "Search result highlighting input".
+* In advanced Contextual filter "Fulltext search".
+* Provide def value "Query parameter".
+* query parameter "text".
+* Fallback value "all".
+* Select "title" for field.
+* Skip default checked.
+* Check "contains any of these words".
+* Save it.
 
-## 1. Development
+Go to search api autocomplete and enable label:
+* Edit and check retrieve from server.
 
-### 1.1 Prerequisites
+Go to block:
+* Check autocomplete part.
+* In form action "search".
+* In autocomplete label, "search".
+* In display "page_1".
 
-You need to have the following software installed on your local development
-environment: [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git),
-[Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/install/)
+Create a new content.
 
-### 1.2 Configuring the project
-
-The project ships with default configuration in the `runner.yml.dist` file. This
-file is configured to run the website on the provided docker containers. If you
-are happy using those, you can skip directly to the [installing the project](#14-installing-the-project)
-section. You can customize the default configuration by copying `runner.yml.dist`
-to `runner.yml` and changing for example the connection details for your
-database server and selenium server.
-
-### 1.3 Setting up the environment
-
-By default, docker-compose reads two files, a `docker-compose.yml` and an
-optional `docker-compose.override.yml` file. By convention, the `docker-compose.yml`
-contains your base configuration and it is committed to the repository. This
-file contains a webserver, a mysql server and a selenium server. It very closely
-matches the environment the website is deployed on.
-
-The override file, as its name implies, can contain configuration overrides for
-existing services or it can add entirely new services. This file is never
-committed to the repository.
-
-#### 1.3.1 Make your life easier with aliases
-
-You can shorten the commands listed below by setting an alias in your `.bashrc`
-file:
-```bash
-alias dcup="dc up -d"
-alias dcweb="dc exec web "
+### 4. News and events content type.
+[oe_starter_content](https://github.com/openeuropa/oe_starter_content) repository.
+```
+$ docker-compose exec web composer require openeuropa/oe_content
+$ docker-compose exec web composer require "openeuropa/oe_starter_content:^1.0.0-beta1"
+$ docker-compose exec web drush config-delete media.type.remote_video && docker-compose exec web drush config-delete media.type.image && docker-compose exec web drush config-delete media.type.document && docker-compose exec web drush config-delete core.entity_view_display.media.remote_video.default && docker-compose exec web drush config-delete core.entity_view_display.media.image.default && docker-compose exec web drush config-delete core.entity_view_display.media.document.default && docker-compose exec web drush config-delete core.entity_form_display.media.remote_video.default && docker-compose exec web drush config-delete core.entity_form_display.media.image.default && docker-compose exec web drush config-delete core.entity_form_display.media.document.default
+$ docker-compose exec web drush en oe_whitelabel_starter_event -y && docker-compose exec web drush en oe_whitelabel_starter_news -y
 ```
 
-### 1.4 Installing the project
-
-```bash
-# Run composer install in the web service.
-docker-compose exec web composer install
-# Build your development instance of the website.
-docker-compose exec web ./vendor/bin/run toolkit:build-dev
-# Perform a clean installation of the website.
-docker-compose exec web ./vendor/bin/run toolkit:install-clean
-# Or alternatively perform a clean installation of the website in
-# development mode. This will automatically disable caching and enable
-# development modules like devel, devel_generate and kint.
-docker-compose exec web ./vendor/bin/run toolkit:install-clean-dev
-# Perform a clone installation with production data.
-docker-compose exec web ./vendor/bin/run toolkit:install-clone
-# Or alternatively perform a clone installation with production data in
-# development mode. This will automatically disable caching and enable
-# development modules like devel, devel_generate and kint.
-docker-compose exec web ./vendor/bin/run toolkit:install-clone-dev
+### 5. Contact form
+[oe_contact_forms](https://github.com/openeuropa/oe_contact_forms) repository.
 ```
-
-Using default configuration your Drupal site will be available locally at:
-- [http://127.0.0.1:8080/web](http://127.0.0.1:8080/web)
-  - does not support EU Login
-  - no http auth by default
-
-**NOTE:** If Cloud9 is used for the project development, when
-setting up a project there it will be available at either:
-- [https://|your-c9-username|.c9.fpfis.tech.ec.europa.eu/web](https://|your-c9-username|.c9.fpfis.tech.ec.europa.eu/web)
-  - supports EU Login
-  - http auth by default (request credentials with a teammember)
-- [https://|aws-machine-id|.vfs.cloud9.eu-west-1.amazonaws.com/web](https://|aws-machine-id|.vfs.cloud9.eu-west-1.amazonaws.com/web)
-  - does not support EU Login
-  - protected by C9 session
-
-
-### 1.5 Testing the project
-
-```bash
-# Run coding standard checks
-docker-compose exec web ./vendor/bin/run toolkit:test-phpcs
-# Run behat tests on a clean installation.
-docker-compose exec web ./vendor/bin/run toolkit:test-behat
-# Run behat tests on a clone installation.
-docker-compose exec web ./vendor/bin/run toolkit:test-behat -D "behat.tags=@clone"
+$ docker-compose exec web composer require openeuropa/oe_contact_forms
+$ docker-compose exec web drush en oe_whitelabel_contact_forms -y
+$ docker-compose exec web composer require drupal/description_list_field
+$ docker-compose exec web composer require openeuropa/oe_paragraphs
+$ docker-compose exec web composer require openeuropa/oe_corporate_blocks
+$ docker-compose exec web drush en oe_whitelabel_paragraphs -y
+$ docker-compose exec web composer require drupal/block_field
+$ docker-compose exec web drush en block_field -y
 ```
+* Create a form through ui (check corporate form).
+* Go to paragraph and create one contact form.
+* Go to fields and add block.
+* Select category and corporate form.
+* Click on save.
+* Go to basic page and create e new one, place the form.
+* Click on save.
 
-### 1.6 Updating composer.lock
-
-When having a conflict on the composer.lock file it is best to solve the conflict
-manually and then update the lock file.
-
-```bash
-docker-compose exec web composer update --lock
+### 6. User profile
+[User_field_anonymize](https://www.drupal.org/project/user_field_anonymize) module, [purge_users](https://www.drupal.org/project/purge_users) module and
+[user_fields_visibility](https://www.drupal.org/project/user_fields_visibility) module (this is not released yet).
+```
+$ docker-compose exec web composer require "drupal/purge_users:^3.0"
+$ docker-compose exec web composer require "drupal/user_fields_visibility:^1.0@alpha"
+$ docker-compose exec web drush en purge_users && docker-compose exec web drush en user_fields_visibility -y
 ```
