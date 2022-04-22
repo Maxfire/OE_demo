@@ -1,7 +1,7 @@
 version: '2'
 services:
   web:
-    image: fpfis/httpd-php:7.3-dev
+    image: fpfis/httpd-php-dev:8.0
     working_dir: ${PWD}
     ports:
       - 8080:8080
@@ -24,6 +24,14 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
       - mysql:/var/lib/mysql
+
+  sparql:
+    image: openeuropa/triple-store-dev
+    environment:
+      - SPARQL_UPDATE=true
+      - DBA_PASSWORD=dba
+    ports:
+      - "8890:8890"
 
   selenium:
     image: selenium/standalone-chrome:3.141.59
