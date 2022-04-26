@@ -72,6 +72,7 @@ Create a new content.
 ```
 $ docker-compose exec web composer require openeuropa/oe_content
 $ docker-compose exec web composer require "openeuropa/oe_starter_content:^1.0.0-beta1"
+$ docker-compose exec web drush en oe_whitelabel_starter_event -y && docker-compose exec web drush en oe_whitelabel_starter_news -y
 $ docker-compose exec web drush config-delete media.type.remote_video && docker-compose exec web drush config-delete media.type.image && docker-compose exec web drush config-delete media.type.document && docker-compose exec web drush config-delete core.entity_view_display.media.remote_video.default && docker-compose exec web drush config-delete core.entity_view_display.media.image.default && docker-compose exec web drush config-delete core.entity_view_display.media.document.default && docker-compose exec web drush config-delete core.entity_form_display.media.remote_video.default && docker-compose exec web drush config-delete core.entity_form_display.media.image.default && docker-compose exec web drush config-delete core.entity_form_display.media.document.default
 $ docker-compose exec web drush en oe_whitelabel_starter_event -y && docker-compose exec web drush en oe_whitelabel_starter_news -y
 ```
@@ -97,8 +98,8 @@ $ docker-compose exec web drush en block_field -y
 * Click on save.
 
 ### 6. User profile
-[User_field_anonymize](https://www.drupal.org/project/user_field_anonymize) module, [purge_users](https://www.drupal.org/project/purge_users) module and
-[user_fields_visibility](https://www.drupal.org/project/user_fields_visibility) module (this is not released yet).
+[User_field_anonymize](https://www.drupal.org/project/user_field_anonymize) module (this is not released yet), [purge_users](https://www.drupal.org/project/purge_users) module and
+[user_fields_visibility](https://www.drupal.org/project/user_fields_visibility) module.
 ```
 $ docker-compose exec web composer require "drupal/purge_users:^3.0"
 $ docker-compose exec web composer require "drupal/user_fields_visibility:^1.0@alpha"
