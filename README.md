@@ -1,5 +1,5 @@
 # Open Europa Library
-This is a kickstarter project for Open Europa Library components integration.
+This is a kickstarter project for Open Europa Library components integration based on Open Europa [subsite](https://github.com/ec-europa/subsite) by using Open Europa [toolkit](https://github.com/ec-europa/toolkit).
 
 ### 1. Drupal instalation
 [oe_demo](https://github.com/Maxfire/OE_demo) repository.
@@ -12,6 +12,7 @@ $ docker-compose exec web composer install
 $ docker-compose exec web ./vendor/bin/run toolkit:build-dev
 $ docker-compose exec web ./vendor/bin/run toolkit:install-clean
 ```
+
 ### 2. Whitelabel theme
 [oe_whitelabel](https://github.com/openeuropa/oe_whitelabel) repository.
 ```
@@ -22,10 +23,9 @@ $ docker-compose exec web ./vendor/bin/drush uli --uri=http://localhost:8080/web
 ```
 Install and set as default the whitelabel theme though UI.
 ```
-$ docker-compose exec web bash
-$ cd web/themes/contrib/oe_bootstrap_theme && npm install && npm run build && exit
 $ docker-compose exec web drush cr
 ```
+
 ### 3. Search
 [search_api](https://www.drupal.org/project/search_api) module.
 ```
@@ -84,7 +84,6 @@ $ docker-compose exec web composer require openeuropa/oe_contact_forms
 $ docker-compose exec web drush en oe_whitelabel_contact_forms -y
 $ docker-compose exec web composer require drupal/description_list_field
 $ docker-compose exec web composer require openeuropa/oe_paragraphs
-$ docker-compose exec web composer require openeuropa/oe_corporate_blocks
 $ docker-compose exec web drush en oe_whitelabel_paragraphs -y
 $ docker-compose exec web composer require drupal/block_field
 $ docker-compose exec web drush en block_field -y
@@ -96,12 +95,3 @@ $ docker-compose exec web drush en block_field -y
 * Click on save.
 * Go to basic page and create e new one, place the form.
 * Click on save.
-
-### 6. User profile
-[User_field_anonymize](https://www.drupal.org/project/user_field_anonymize) module (this is not released yet), [purge_users](https://www.drupal.org/project/purge_users) module and
-[user_fields_visibility](https://www.drupal.org/project/user_fields_visibility) module.
-```
-$ docker-compose exec web composer require "drupal/purge_users:^3.0"
-$ docker-compose exec web composer require "drupal/user_fields_visibility:^1.0@alpha"
-$ docker-compose exec web drush en purge_users && docker-compose exec web drush en user_fields_visibility -y
-```
