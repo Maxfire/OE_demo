@@ -19,6 +19,11 @@ $ docker-compose exec web ./vendor/bin/run toolkit:install-clean
 $ docker-compose exec web composer require "openeuropa/oe_whitelabel:^1.0.0-alpha7"
 $ docker-compose exec web composer require openeuropa/oe_corporate_blocks
 $ docker-compose exec web drush en oe_whitelabel_helper -y && docker-compose exec web drush en twig_field_value -y
+$ docker-compose exec web drush en toolbar -y
+$ docker-compose exec web drush config-set system.theme default oe_whitelabel -y
+$ docker-compose exec web drush config-set system.theme admin seven -y
+$ docker-compose exec web drush en field_ui -y
+$ docker-compose exec web drush en views_ui -y
 $ docker-compose exec web ./vendor/bin/drush uli --uri=http://localhost:8080/web/
 ```
 Install and set as default the whitelabel theme though UI.
@@ -72,8 +77,6 @@ Create a new content.
 ```
 $ docker-compose exec web composer require openeuropa/oe_content
 $ docker-compose exec web composer require "openeuropa/oe_starter_content:^1.0.0-beta1"
-$ docker-compose exec web drush en oe_whitelabel_starter_event -y && docker-compose exec web drush en oe_whitelabel_starter_news -y
-$ docker-compose exec web drush config-delete media.type.remote_video && docker-compose exec web drush config-delete media.type.image && docker-compose exec web drush config-delete media.type.document && docker-compose exec web drush config-delete core.entity_view_display.media.remote_video.default && docker-compose exec web drush config-delete core.entity_view_display.media.image.default && docker-compose exec web drush config-delete core.entity_view_display.media.document.default && docker-compose exec web drush config-delete core.entity_form_display.media.remote_video.default && docker-compose exec web drush config-delete core.entity_form_display.media.image.default && docker-compose exec web drush config-delete core.entity_form_display.media.document.default
 $ docker-compose exec web drush en oe_whitelabel_starter_event -y && docker-compose exec web drush en oe_whitelabel_starter_news -y
 ```
 
