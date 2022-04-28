@@ -21,7 +21,9 @@ $ docker-compose exec web ./vendor/bin/drush uli --uri=http://localhost:8080/web
 [oe_whitelabel](https://github.com/openeuropa/oe_whitelabel) repository.
 ```
 $ docker-compose exec web composer require "openeuropa/oe_whitelabel:^1.0.0-alpha7"
-// Missing dependency, will be fixed on whitelabel alpha 8 version.
+```
+Missing dependency, will be fixed on whitelabel alpha 8 version.
+```
 $ docker-compose exec web composer require openeuropa/oe_corporate_blocks
 $ docker-compose exec web drush en oe_whitelabel_helper -y
 ```
