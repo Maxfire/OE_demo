@@ -13,8 +13,7 @@ $ docker-compose up -d
 $ docker-compose exec web composer install
 $ docker-compose exec web ./vendor/bin/run toolkit:build-dev
 $ docker-compose exec web ./vendor/bin/run toolkit:install-clean
-$ docker-compose exec web drush en toolbar -y
-$ docker-compose exec web drush en field_ui views_ui  menu_ui -y
+$ docker-compose exec web drush en toolbar field_ui views_ui  menu_ui -y
 $ docker-compose exec web ./vendor/bin/drush uli --uri=http://localhost:8080/web/
 ```
 
