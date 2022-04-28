@@ -5,7 +5,7 @@ drupal:
         name: "OpenEuropaLibrary demo"
         generate_db_url: false
         default_theme: subsite
-    profile: "minimal"
+        profile: "minimal"
     sparql:
         host: "sparql"
         port: "8890"
